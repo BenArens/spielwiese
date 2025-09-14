@@ -48,6 +48,6 @@ function getInput() {
     
     let filterObj = oriObj;
 
-        filterObj = filterObj.filter((element) => element['name'].includes(bensInput))
-        renderFilterArr(filterObj)
+    filterObj = filterObj.filter((element) => element['name'].includes(bensInput))
+    renderFilterArr(filterObj);
 }
