@@ -27,16 +27,11 @@ function renderArr() {
     }
 }
 
-
 function getContentTemplate(index) {
     return ` <div class="names">
             <h2>Name: ${myObjectArr[index].name}</h2>
         </div> `
 }
-
-
-
-
 
 function renderFilterArr(obj) {
     myObjectArr = obj;
@@ -47,17 +42,12 @@ function renderFilterArr(obj) {
     }
 }
 
-
 function getInput() {
     let bensInput = document.getElementById('bens_input');
     bensInput = bensInput.value
     
     let filterObj = oriObj;
 
-    if (bensInput.length > 0) {
         filterObj = filterObj.filter((element) => element['name'].includes(bensInput))
         renderFilterArr(filterObj)
-    } else {
-        renderFilterArr(oriObj);
-    }
 }
