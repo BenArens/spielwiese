@@ -1,0 +1,101 @@
+<script>
+function toggleContent(index) {
+    const allContents = document.getElementsByClassName('content');
+    const allIcons = document.getElementsByClassName('smart-icon');
+
+    for (let i = 0; i < allContents.length; i++) {
+        if (i === index) {
+            allContents[i].classList.toggle('hidden');
+            allIcons[i].classList.toggle('rotate');
+        } else {
+            allContents[i].classList.add('hidden');
+            allIcons[i].classList.remove('rotate');
+    }
+}
+}
+
+
+// Klick auf Button mit name="Geschmack" → Seite neu laden
+document.addEventListener('click', function(event) {
+    const el = event.target;
+    const nameAttr = el.getAttribute('name');
+
+    if (nameAttr && nameAttr.includes('Geschmack') || nameAttr.includes('Inhaltsgröße')) {
+
+        setTimeout(function() {
+            location.reload();
+        }, 300);
+    }
+});
+</script>
+
+<div>
+    <div class="accordion">
+
+        <div onclick="toggleContent(0)" class="block">
+            <div class="headline">
+                <h3>{{ product.title }} - {{ product.selected_or_first_available_variant.metafields.custom._gewichtfuellmenge | metafield_tag }}</h3>
+                <img src="https://cdn.shopify.com/s/files/1/0827/0302/4429/files/arrowDown.svg?v=1748171711" class="smart-icon rotate" alt="">
+                
+
+            </div>
+            <div class="content">{{ product.description }}</div>
+        </div>
+
+        <div onclick="toggleContent(1)" class="block">
+            <div class="headline">
+                <h3>Nährwerte</h3>
+                <img src="https://cdn.shopify.com/s/files/1/0827/0302/4429/files/arrowDown.svg?v=1748171711" class="smart-icon" alt="">
+            </div>
+            <div class="content hidden">
+                <h4>pro 100g</h4>{{ product.selected_or_first_available_variant.metafields.custom._naehrwerte100g | metafield_tag }}<br>
+                <h4>pro Portion</h4>{{ product.selected_or_first_available_variant.metafields.custom._naehrwerteportion1 | metafield_tag }}
+            </div>
+        </div>
+
+        <div onclick="toggleContent(2)" class="block">
+            <div class="headline">
+                <h3>Verzehrempfehlung</h3>
+                <img src="https://cdn.shopify.com/s/files/1/0827/0302/4429/files/arrowDown.svg?v=1748171711" class="smart-icon" alt="">
+            </div>
+            <div class="content hidden">
+                {{ product.selected_or_first_available_variant.metafields.custom._verzehrsempfehlung }}
+                <p><b>Portionsgröße: </b>{{ product.selected_or_first_available_variant.metafields.custom._portion1 }}</p>
+            </div>
+        </div>
+
+        <div onclick="toggleContent(3)" class="block">
+            <div class="headline">
+                <h3>Produktdetails</h3>
+                <img src="https://cdn.shopify.com/s/files/1/0827/0302/4429/files/arrowDown.svg?v=1748171711" class="smart-icon" alt="">
+            </div>
+            <div class="content hidden">
+
+<h4>{{ product.selected_or_first_available_variant.metafields.custom._gewichtfuellmenge | metafield_tag }}</h4>
+
+                <p><b>Verkehrsbezeichnung: </b>{{ product.selected_or_first_available_variant.metafields.custom._verkehrsbezeichnung }}</p>
+                <p><b>Inhaltsstoffe: </b>{{ product.selected_or_first_available_variant.metafields.custom._zutaten }}</p>
+                <p><b>Lagerbedingungen: </b>{{ product.selected_or_first_available_variant.metafields.custom._lagerbedingungen }}</p>
+                <p><b>Allergene Hinweise:</b> <b>Kann Spuren von {{ product.selected_or_first_available_variant.metafields.custom._spurenvon }} enthalten.</b></p>
+                <p>{{ product.selected_or_first_available_variant.metafields.custom._allergene | metafield_tag }}</p>
+                <p><b>Weitere Hinweise: </b>{{ product.selected_or_first_available_variant.metafields.custom._farbstoff }}</p>
+                <p>{{ product.selected_or_first_available_variant.metafields.custom._warnhinweis }}</p>
+                <p>{{ product.selected_or_first_available_variant.metafields.custom._hinweisproduktbezogen }}</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% assign variant = product.selected_or_first_available_variant %}
+
+{% assign variant = product.selected_or_first_available_variant %}
+
+{% if variant.metafields.custom.produktetikett %}
+  <div style="text-align: center;">
+    <img 
+      src="{{ variant.metafields.custom.produktetikett.value | img_url: 'master' }}" 
+      alt="Etikett" 
+      style="max-width: 100%; height: auto; display: inline-block;">
+  </div>
+{% endif %}

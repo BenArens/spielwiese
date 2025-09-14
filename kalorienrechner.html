@@ -1,0 +1,240 @@
+<div class="kalorienrechner-container">
+    <style>
+        .select {
+            background-color: white;
+            color: black;
+            padding: 8px;
+        }
+
+        .ergebnis-heading {
+            color: white;
+        }
+
+        .kalorienrechner-container * {
+            box-sizing: border-box;
+        }
+
+        .kalorienrechner-container {
+            padding: 15px;
+            max-width: 810px;
+            width: 100%;
+            margin: 0 auto;
+            background: fdfcfc;
+        }
+
+        .kalorienrechner-container h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .kalorienrechner-container label {
+            display: block;
+            margin: 1rem 0 0.5rem;
+            font-weight: bold;
+        }
+
+        .kalorienrechner-container input,
+        .kalorienrechner-container select {
+            padding: 1rem;
+            border: 1px solid #30383b;
+            width: 100%;
+        }
+
+        .gender-buttons,
+        .goal-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .gender-buttons button,
+        .goal-buttons button {
+            flex: 1;
+            padding: 2rem;
+            font-weight: bold;
+            border: 0;
+            cursor: pointer;
+            background-color: #272727;
+            color: white;
+        }
+
+        .gender-buttons button.active,
+        .goal-buttons button.active {
+            background: #f39200;
+            color: #fdfcfc;
+        }
+
+        #kr-result {
+            margin-top: 2rem;
+            padding: 4rem;
+            background-color: #272727;
+            color: #fdfcfc;
+            text-align: center;
+        }
+
+        #kr-calculate {
+            margin-top: 1.5rem;
+            width: 100%;
+            background: #272727;
+            border: none;
+            padding: 20px 2px;
+            font-size: 1rem;
+            cursor: pointer;
+            color: #fdfcfc;
+            font-size: 20px;
+            text-transform: uppercase;
+        }
+
+        .koerper-info {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .info {
+            flex: 1 1 40%;
+        }
+
+        .d-none {
+            display: none;
+        }
+    </style>
+
+    <label>Geschlecht</label>
+    <div class="gender-buttons">
+        <button class="button1" onclick="selectGender('female')" id="female">Weiblich</button>
+        <button class="button1" onclick="selectGender('male')" id="male">Männlich</button>
+    </div>
+
+    <div class="koerper-info">
+        <div class="info">
+            <label>Alter</label>
+            <input type="number" id="age" value="27" />
+        </div>
+        <div class="info">
+            <label>Gewicht (kg)</label>
+            <input type="number" id="weight" value="67" />
+        </div>
+        <div class="info">
+            <label>Größe (cm)</label>
+            <input type="number" id="height" value="174" />
+        </div>
+        <div class="info">
+            <label>KFA in %</label>
+            <input type="number" id="bodyfat" value="7" />
+        </div>
+    </div>
+
+    <label>Sport pro Woche</label>
+    <select id="sport" class="select">
+        <option value="0">Kein Sport</option>
+        <option value="1">1x</option>
+        <option value="2">2x</option>
+        <option value="3" selected>3x</option>
+        <option value="4">4x</option>
+        <option value="5">5x</option>
+        <option value="6">6x</option>
+        <option value="7">7x (oder mehr)</option>
+    </select>
+
+    <label>Alltagsaktivität</label>
+    <select id="activity" class="select">
+        <option value="1.2" selected>wenig aktiv (nur sitzend)</option>
+        <option value="1.375">etwas aktiv (meist sitzend)</option>
+        <option value="1.55">aktiv (viel laufend)</option>
+        <option value="1.725">sehr aktiv (harte körperliche Arbeit)</option>
+    </select>
+
+    <label>Ziel</label>
+    <div class="goal-buttons">
+        <button class="button1" onclick="selectGoal('lose')" id="lose">Abnehmen</button>
+        <button class="button1" onclick="selectGoal('maintain')" id="maintain">Gewicht halten</button>
+        <button class="button1" onclick="selectGoal('gain')" id="gain">Zunehmen</button>
+    </div>
+
+    <button class="calculate" id="kr-calculate" onclick="calculateCalories()">Jetzt berechnen</button>
+
+    <div id="kr-result" class="d-none"></div>
+
+    <script>
+        let gender = 'female';
+        let goal = 'maintain';
+
+        function selectGender(g) {
+            gender = g;
+            document.getElementById('female').classList.remove('active');
+            document.getElementById('male').classList.remove('active');
+            document.getElementById(g).classList.add('active');
+        }
+
+        function selectGoal(g) {
+            goal = g;
+            document.getElementById('lose').classList.remove('active');
+            document.getElementById('maintain').classList.remove('active');
+            document.getElementById('gain').classList.remove('active');
+            document.getElementById(g).classList.add('active');
+        }
+
+        function calculateCalories() {
+            const age = +document.getElementById('age').value;
+            const weight = +document.getElementById('weight').value;
+            const height = +document.getElementById('height').value;
+            const activity = +document.getElementById('activity').value;
+            const sport = +document.getElementById('sport').value;
+
+            let bmr;
+            if (gender === 'male') {
+                bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+            } else {
+                bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+            }
+
+            const sportFactor = 1 + sport * 0.05;
+            let tdee = bmr * activity * sportFactor;
+
+            if (goal === 'lose') tdee -= 300;
+            else if (goal === 'gain') tdee += 300;
+
+            const protein = weight * (goal === 'gain' ? 2.3 : 2);
+            const fat = weight * 1;
+            const carbs = (tdee - (protein * 4 + fat * 9)) / 4;
+
+            const result = document.getElementById('kr-result');
+            result.classList.remove('d-none');
+            result.innerHTML = `
+        <h2 class="ergebnis-heading">Dein Ergebnis 🎉</h2>
+        <p><strong>${Math.round(tdee)} kcal</strong> Empfohlene Kalorienzufuhr</p>
+        <p>${protein.toFixed(1)}g Proteine | ${carbs.toFixed(1)}g Kohlenhydrate | ${fat.toFixed(1)}g Fett</p>
+      `;
+
+            // Zielabhängige Weiterleitung
+            let linkUrl = "#";
+            switch (goal) {
+                case "lose":
+                    linkUrl = "/collections/abnehmen";
+                    break;
+                case "maintain":
+                    linkUrl = "/collections/gewicht-halten";
+                    break;
+                case "gain":
+                    linkUrl = "/collections/muskelaufbau";
+                    break;
+            }
+
+            const linkButton = document.createElement("a");
+            linkButton.href = linkUrl;
+            linkButton.innerText = "Produkte entdecken";
+            linkButton.style.display = "inline-block";
+            linkButton.style.marginTop = "1.5rem";
+            linkButton.style.padding = "1rem 2rem";
+            linkButton.style.backgroundColor = "white";
+            linkButton.style.border = "2px solid white";
+            linkButton.style.color = "black";
+            linkButton.style.fontWeight = "bold";
+            linkButton.style.borderRadius = "0.5rem";
+            linkButton.style.textDecoration = "none";
+
+            result.appendChild(linkButton);
+        }
+    </script>
+</div>
