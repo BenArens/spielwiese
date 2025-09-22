@@ -1,0 +1,19 @@
+.aktions-container{
+    display: flex;
+    justify-content: center;
+}
+
+.aktions-box{
+    max-width: 800px;
+    padding: 40px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.aktions-h2{
+    margin-top: 0;
+}
+
+.bold{
+    font-weight: bold;
+}

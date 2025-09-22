@@ -1,0 +1,51 @@
+{{ 'lxa-header.css' | asset_url | stylesheet_tag }}
+
+ <div class="effectiv-footer">
+        <div class="img-container">
+            <img src="https://cdn.shopify.com/s/files/1/0964/7941/2565/files/68-1_optimized.jpg?v=1758120696" alt="woman trains" class="effectiv-footer-img">
+        </div>
+        <div class="text-container">
+            <div class="content-limitation">
+                <span class="small-text">Fitness in Ensch und Herforst</span> 
+
+                <span class="effectiv-h2">{{section.settings.footer_headline}}</span>
+                <p class="effectiv-p">
+                   {{section.settings.footer_text}}
+                </p>
+                <a class="myButton" href="https://effectiv.de">{{section.settings.footer_text_buuton}}</a>
+            </div>
+        </div>
+    </div>
+
+{% schema %}
+{
+  "name": "LXA Footer",
+  "settings": [
+    {
+      "type": "text", 
+      "id": "footer_headline",
+      "label": "Deine Überschrift:", 
+      "default":"Dein Ziel. Dein Training. Dein Erfolg"
+    },
+    {
+      "type": "text",
+      "id": "footer_text", 
+      "label": "Dein Text: ", 
+      "default": "Egal ob mehr Power, bessere Figur oder einfach Spaß an Bewegung – bei effectiv bekommst du genau
+                    das, was du brauchst: moderne Trainingskonzepte, motivierende Atmosphäre und echte Profis an deiner
+                    Seite. Starte jetzt dein persönliches Fitnessprogramm – wir begleiten dich auf jedem Schritt."
+    }, 
+    {
+        "type": "text",
+        "id": "footer_text_buuton",
+        "label": "Deine Button-Beschriftung",
+        "default": "Zur Webseite"
+    }
+  ],
+  "presets": [
+    {
+      "name": "LXA Header"
+    }
+  ]
+}
+{% endschema %}

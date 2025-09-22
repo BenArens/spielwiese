@@ -1,0 +1,30 @@
+.myContainer{
+    gap: 20px;
+    display: flex;
+    position: relative;
+    height: 400px;
+}
+
+.bigBox{
+    width: 70%;
+    background-image: url("./img/weine.webp");
+    background-size: cover;
+    background-position-y: bottom 10px;
+    position: relative;
+    background-position: center calc(100% - 17%);
+    border-radius: 20px;
+}
+
+.smallBox{
+    background-color: green;
+    width: 30%;
+    border-radius: 20px;
+}
+
+.imgAbsolute{
+    background: #020024;
+    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(0, 0, 0, 1) 22%, rgba(255, 255, 255, 0) 92%);
+    height: 100%;
+    width: 100%;
+    border-radius: 20px;
+}
